@@ -64,7 +64,7 @@ class EssentialsPlugin(Plugin):
 
     @event_handler()
     def on_player_death(self, event: PlayerDeathEvent):
-        self.last_death_locations[event.player.name] = event.player.location
+        self.last_death_locations[event.player.unique_id] = event.player.location
         event.player.send_message("You can use the /back command to return to the place of death")
         return
 

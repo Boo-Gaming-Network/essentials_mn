@@ -2,9 +2,10 @@ from pathlib import Path
 from typing import Union
 
 import yaml
-from endstone import Player
+import json
+from endstone import Player, ColorFormat
 from endstone.command import Command, CommandExecutor, CommandSender
-from endstone.event import PlayerDeathEvent, event_handler
+from endstone.event import PlayerDeathEvent, PlayerJoinEvent, event_handler
 from endstone.level import Location
 from endstone.plugin import Plugin
 from endstone_essentials.commands import (
@@ -15,7 +16,8 @@ from endstone_essentials.commands import (
     WarpCommandExecutors,
     TpaCommandExecutor,
     NoticeCommandExecutors,
-    PingCommandExecutor
+    PingCommandExecutor,
+    EconomyCommandExecutors
 )
 
 
@@ -36,6 +38,8 @@ class EssentialsPlugin(Plugin):
     def __init__(self):
         super().__init__()
         self.last_death_locations = {}
+        self.economy: dict[str, int] = {}
+        self.load_economy()
 
     def on_enable(self) -> None:
         self.save_default_config()
@@ -48,6 +52,7 @@ class EssentialsPlugin(Plugin):
         self.register_command(["tpa", "tpaccept", "tpdeny"], TpaCommandExecutor(self))
         self.register_command(["notice", "setnotice"], NoticeCommandExecutors(self))
         self.register_command("ping", PingCommandExecutor(self))
+        self.register_command(["economy", "economyadmin"], EconomyCommandExecutors(self))
 
     def on_command(self, sender: CommandSender, command: Command, args: list[str]) -> bool:
         if not self.is_command_enabled(command.name):
@@ -59,9 +64,36 @@ class EssentialsPlugin(Plugin):
 
     @event_handler()
     def on_player_death(self, event: PlayerDeathEvent):
-        self.last_death_locations[event.player.unique_id] = event.player.location
+        self.last_death_locations[event.player.name] = event.player.location
         event.player.send_message("You can use the /back command to return to the place of death")
         return
+
+    @event_handler()
+    def on_player_join(self, event: PlayerJoinEvent):
+        if self.economy.get(event.player.name) is None:
+            self.economy[event.player.name] = self.config["economy"]["default"]
+            self.save_economy()
+        event.player.send_message("Your economy: " + ColorFormat.GREEN + f"{self.economy[event.player.name]}")
+
+    def load_economy(self) -> None:
+        path = Path(self.data_folder) / "economy.json"
+        if not path.exists():
+            return
+
+        with path.open("r") as f:
+            data = json.load(f)
+
+        for player_name, player_economy in data.items():
+            self.economy[player_name] = player_economy
+
+    def save_economy(self) -> None:
+        data = {}
+        for player_name, player_economy in self.economy.items():
+            data[str(player_name)] = player_economy
+
+        path = Path(self.data_folder) / "economy.json"
+        with path.open("w") as f:
+            json.dump(data, f, indent=4)
 
     def register_command(self, names: Union[str, list[str]], executor: CommandExecutor) -> None:
         if not isinstance(names, list):
@@ -82,3 +114,5 @@ class EssentialsPlugin(Plugin):
     def teleport_to_player(self, source: Player, player: Player):
         # TODO(api): replace with player.teleport
         self.server.dispatch_command(self.server.command_sender, f'tp "{source.name}" "{player.name}"')
+
+

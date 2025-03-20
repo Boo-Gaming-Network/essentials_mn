@@ -4,11 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "endstone-essentials"
-version = "0.0.5"
+version = "0.0.6"
 dependencies = ["pyyaml"]
 authors = [
     { name = "daoge_cmd", email = "3523206925@qq.com" },
     { name = "Vincent Wu", email = "magicdroidx@gmail.com" },
+    { name = "umarurize", email = "3229187183@qq.com" },
 ]
 description = "The modern essentials suite for endstone server"
 readme = "README.md"

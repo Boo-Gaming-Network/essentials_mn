@@ -39,9 +39,9 @@ class EssentialsPlugin(Plugin):
         super().__init__()
         self.last_death_locations = {}
         self.economy: dict[str, int] = {}
-        self.load_economy()
 
     def on_enable(self) -> None:
+        self.load_economy()
         self.save_default_config()
         self.register_events(self)
         self.register_command("back", BackCommandExecutors(self))
@@ -89,7 +89,7 @@ class EssentialsPlugin(Plugin):
     def save_economy(self) -> None:
         data = {}
         for player_name, player_economy in self.economy.items():
-            data[str(player_name)] = player_economy
+            data[player_name] = player_economy
 
         path = Path(self.data_folder) / "economy.json"
         with path.open("w") as f:

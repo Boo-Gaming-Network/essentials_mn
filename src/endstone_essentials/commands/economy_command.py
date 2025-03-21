@@ -47,6 +47,7 @@ class EconomyCommandExecutors(CommandExecutorBase):
 
             case "economyadmin":
                 player_name_list = [player_name for player_name in self.plugin.economy.keys()]
+                player_name_list.sort(key=lambda x:x[0], reverse=False)
 
                 def on_submit(player: Player, json_str: str):
                     index = json.loads(json_str)[0]
@@ -82,6 +83,7 @@ class EconomyCommandExecutors(CommandExecutorBase):
         if len(player_name_list) == 0:
             player.send_message(ColorFormat.RED + "There are no players available for economy pay")
             return
+        player_name_list.sort(key=lambda x:x[0], reverse=False)
 
         def on_submit(player: Player, json_str: str):
             data = json.loads(json_str)

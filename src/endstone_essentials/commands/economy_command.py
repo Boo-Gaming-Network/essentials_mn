@@ -192,6 +192,9 @@ class EconomyCommandExecutors(CommandExecutorBase):
                 if money_to_change == 0:
                     player.send_message(ColorFormat.RED + "Invalid input type")
                     return
+                if money_to_change < 0 and abs(money_to_change) > target_player_economy:
+                    player.send_message(ColorFormat.RED + "Player's economy cannot be reduced to a negative integer")
+                    return
                 self.plugin.economy[target_player_name] += money_to_change
                 self.plugin.save_economy()
                 player.send_message(ColorFormat.GREEN + f"{target_player_name}'s economy has been successfully changed")

@@ -76,6 +76,14 @@ commands:
     description: "Check a player's ping on the server"
     usages: [ "/ping [player: player]" ]
     permission: [ "essentials.command.ping" ]
+  economy:
+    description: "Economy system"
+    usages: ["/economy"]
+    permissions: ["essentials.command.economy"]
+  economyadmin:
+    description: "Economy admin"
+    usages: ["/economyadmin"]
+    permission: ["essentials.command.economyadmin"]
 
 permissions:
   essentials.command:
@@ -99,6 +107,8 @@ permissions:
       essentials.command.notice: true
       essentials.command.setnotice: true
       essentials.command.ping: true
+      essentials.command.economy: true
+      essentials.command.economyadmin: true
   essentials.command.fly:
     description: "Allow users to use the /fly command."
     default: op
@@ -149,4 +159,10 @@ permissions:
     default: op
   essentials.command.ping:
     description: "Allow users to use the /ping command."
+    default: op
+  essentials.command.economy:
+    description: "Economy system"
+    default: true
+  essentials.command.economyadmin:
+    description: "Economy admin"
     default: op

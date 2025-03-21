@@ -12,6 +12,8 @@ The modern essentials suite for endstone server.
 - [x] `/warp` Warp command
 - [x] `/notice` View server announcements
 - [x] `/ping` Get ping
+- [x] `/economy` Economy functions for players (pay|top)
+- [x] `/economyadmin` Economy functions for operators (query|reset|change)
 
 ## Install
 

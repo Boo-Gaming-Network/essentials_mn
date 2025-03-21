@@ -6,6 +6,7 @@ from .notice_command import NoticeCommandExecutors
 from .ping_command import PingCommandExecutor
 from .tpa_command import TpaCommandExecutor
 from .warp_command import WarpCommandExecutors
+from .economy_command import EconomyCommandExecutors
 
 __all__ = [
     "BackCommandExecutors",
@@ -16,4 +17,5 @@ __all__ = [
     "TpaCommandExecutor",
     "WarpCommandExecutors",
     "NoticeCommandExecutors",
+    "EconomyCommandExecutors"
 ]

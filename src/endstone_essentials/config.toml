@@ -7,6 +7,12 @@ home = true
 warp = true
 notice = true
 ping = true
+economy = true
+economyadmin = true
+
+[economy]
+default = 5000
+display_num = 15
 
 [notice]
 title = "Notice"

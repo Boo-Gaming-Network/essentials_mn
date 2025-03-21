@@ -76,6 +76,7 @@ class EconomyCommandExecutors(CommandExecutorBase):
         return True
 
     def economy_pay(self, player: Player):
+        player_economy = self.plugin.economy[player.name]
         player_name_list = []
         for player_name in self.plugin.economy.keys():
             if player_name != player.name:
@@ -120,7 +121,9 @@ class EconomyCommandExecutors(CommandExecutorBase):
                 title="Economy pay",
                 controls=[
                     Dropdown(label="Select a online player", options=player_name_list),
-                    TextInput(label="Input money to pay", placeholder="Must be a positive integer")
+                    TextInput(label="Your economy: " + ColorFormat.GREEN + f"{player_economy}\n" +
+                                    ColorFormat.RESET + "Input money to pay",
+                              placeholder="Must be a positive integer")
                 ],
                 submit_button=ColorFormat.GREEN + ColorFormat.BOLD + "Pay",
                 on_submit=on_submit
@@ -170,7 +173,8 @@ class EconomyCommandExecutors(CommandExecutorBase):
                 ModalForm(
                     title="Economy admin - reset",
                     controls=[
-                        TextInput(label=f"{target_player_name}'s economy: " + ColorFormat.GREEN + f"{target_player_economy}\n\n",
+                        TextInput(label=f"{target_player_name}'s economy: " + ColorFormat.GREEN + f"{target_player_economy}\n\n" +
+                                        ColorFormat.RESET + "Input money to reset",
                                   placeholder="Must be a positive integer or zero")
                     ],
                     submit_button=ColorFormat.GREEN + "reset",
@@ -218,7 +222,8 @@ class EconomyCommandExecutors(CommandExecutorBase):
                     title="Economy admin - change",
                     controls=[
                         TextInput(
-                            label=f"{target_player_name}'s economy: " + ColorFormat.GREEN + f"{target_player_economy}\n\n",
+                            label=f"{target_player_name}'s economy: " + ColorFormat.GREEN + f"{target_player_economy}\n\n" +
+                                  ColorFormat.RESET + "Input money to change",
                             placeholder="Must be a positive or negative integer")
                     ],
                     submit_button=ColorFormat.GREEN + "change",

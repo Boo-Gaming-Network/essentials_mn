@@ -133,8 +133,15 @@ class HomeCommandExecutors(CommandExecutorBase):
         for player_uuid, homes in data.items():
             player_homes = {}
             for home_name, home_location in homes.items():
+                dimension = level.get_dimension(home_location[0])
+                if dimension is None:
+                    self.plugin.logger.warning(
+                        f"Could not find dimension '{home_location[0]}' for home '{home_name}' "
+                        f"of player '{player_uuid}', skipping."
+                    )
+                    continue
                 player_homes[home_name] = Location(
-                    level.get_dimension(home_location[0]),
+                    dimension,
                     float(home_location[1]),
                     float(home_location[2]),
                     float(home_location[3]),

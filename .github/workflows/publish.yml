@@ -14,7 +14,6 @@ jobs:
   publish:
     if: github.repository == 'Boo-Gaming-Network/essentials_mn'
     runs-on: ubuntu-latest
-    environment: pypi
     permissions:
       id-token: write
       contents: write

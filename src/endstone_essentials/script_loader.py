@@ -19,6 +19,12 @@ class ScriptLoader:
 
     def __init__(self, plugin: "EssentialsPlugin") -> None:
         self._plugin = plugin
+        self._loaded_modules: list[str] = []
+
+    def unload_scripts(self) -> None:
+        for module_name in self._loaded_modules:
+            sys.modules.pop(module_name, None)
+        self._loaded_modules.clear()
 
     def load_scripts(self) -> None:
         scripts_dir = Path(self._plugin.data_folder) / "scripts"
@@ -41,8 +47,9 @@ class ScriptLoader:
                 self._plugin.logger.warning(f"Could not load spec for script {path.name}, skipping.")
                 return
             module = importlib.util.module_from_spec(spec)
-            sys.modules[module_name] = module
             spec.loader.exec_module(module)
+            sys.modules[module_name] = module
+            self._loaded_modules.append(module_name)
 
             on_load = getattr(module, "on_load", None)
             if callable(on_load):

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Union
+from typing import Optional, Union
 
 import yaml
 import json
@@ -18,7 +18,8 @@ from endstone_essentials.commands import (
     TpaCommandExecutor,
     NoticeCommandExecutors,
     PingCommandExecutor,
-    EconomyCommandExecutors
+    EconomyCommandExecutors,
+    ReloadCommandExecutor
 )
 
 
@@ -40,6 +41,7 @@ class EssentialsPlugin(Plugin):
         super().__init__()
         self.last_death_locations = {}
         self.economy: dict[str, int] = {}
+        self.script_loader: Optional[ScriptLoader] = None
 
     def on_enable(self) -> None:
         self.load_economy()
@@ -54,7 +56,9 @@ class EssentialsPlugin(Plugin):
         self.register_command(["notice", "setnotice"], NoticeCommandExecutors(self))
         self.register_command("ping", PingCommandExecutor(self))
         self.register_command(["economy", "economyadmin"], EconomyCommandExecutors(self))
-        ScriptLoader(self).load_scripts()
+        self.register_command("essentials", ReloadCommandExecutor(self))
+        self.script_loader = ScriptLoader(self)
+        self.script_loader.load_scripts()
 
     def on_command(self, sender: CommandSender, command: Command, args: list[str]) -> bool:
         if not self.is_command_enabled(command.name):

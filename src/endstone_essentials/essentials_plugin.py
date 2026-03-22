@@ -8,6 +8,7 @@ from endstone.command import Command, CommandExecutor, CommandSender
 from endstone.event import PlayerDeathEvent, PlayerJoinEvent, event_handler
 from endstone.level import Location
 from endstone.plugin import Plugin
+from endstone_essentials.script_loader import ScriptLoader
 from endstone_essentials.commands import (
     BackCommandExecutors,
     BroadcastCommandExecutor,
@@ -53,6 +54,7 @@ class EssentialsPlugin(Plugin):
         self.register_command(["notice", "setnotice"], NoticeCommandExecutors(self))
         self.register_command("ping", PingCommandExecutor(self))
         self.register_command(["economy", "economyadmin"], EconomyCommandExecutors(self))
+        ScriptLoader(self).load_scripts()
 
     def on_command(self, sender: CommandSender, command: Command, args: list[str]) -> bool:
         if not self.is_command_enabled(command.name):

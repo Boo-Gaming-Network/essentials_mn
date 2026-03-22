@@ -9,6 +9,7 @@ notice = true
 ping = true
 economy = true
 economyadmin = true
+essentials = true
 
 [economy]
 default = 5000

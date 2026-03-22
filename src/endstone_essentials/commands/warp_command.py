@@ -124,8 +124,14 @@ class WarpCommandExecutors(CommandExecutorBase):
 
         level = self.plugin.server.level
         for warp_name, warp_location in data.items():
+            dimension = level.get_dimension(warp_location[0])
+            if dimension is None:
+                self.plugin.logger.warning(
+                    f"Could not find dimension '{warp_location[0]}' for warp '{warp_name}', skipping."
+                )
+                continue
             self.warps[warp_name] = Location(
-                level.get_dimension(warp_location[0]),
+                dimension,
                 float(warp_location[1]),
                 float(warp_location[2]),
                 float(warp_location[3]),

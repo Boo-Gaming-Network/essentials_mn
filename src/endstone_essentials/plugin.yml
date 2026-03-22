@@ -84,6 +84,10 @@ commands:
     description: "Economy admin"
     usages: ["/economyadmin"]
     permission: ["essentials.command.economyadmin"]
+  essentials:
+    description: "Essentials plugin management"
+    usages: [ "/essentials reload" ]
+    permissions: [ "essentials.command.essentials" ]
 
 permissions:
   essentials.command:
@@ -109,6 +113,7 @@ permissions:
       essentials.command.ping: true
       essentials.command.economy: true
       essentials.command.economyadmin: true
+      essentials.command.essentials: true
   essentials.command.fly:
     description: "Allow users to use the /fly command."
     default: op
@@ -165,4 +170,7 @@ permissions:
     default: true
   essentials.command.economyadmin:
     description: "Economy admin"
+    default: op
+  essentials.command.essentials:
+    description: "Allow operators to use the /essentials command."
     default: op
